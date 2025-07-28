@@ -5,30 +5,25 @@ const cors = require('cors');
 // Creamos el servidor
 const app = express();
 
-// Conexión a la base de datos (usa variable de entorno en producción)
+// Conexión a la base de datos
 conectarDB();
-
-// Middleware
 app.use(cors());
+
+// Middleware para parsear JSON
 app.use(express.json());
 
-// Rutas
+// Ruta base para productos
 app.use('/api/productos', require('./routes/producto'));
 
-// Ruta principal (opcional)
+// Ruta principal (opcional, útil para pruebas)
 app.get('/', (req, res) => {
-    res.send('🚀 API funcionando correctamente en Vercel');
+    res.send('🚀 API funcionando correctamente');
 });
 
-// Configuración para Vercel
-const PORT = process.env.PORT || 4000;  // Usa el puerto de Vercel o 4000 en local
 
-if (require.main === module) {
-    // Solo inicia el servidor si se ejecuta directamente (no en Vercel)
-    app.listen(PORT, () => {
-        console.log(`✅ Servidor corriendo en: http://localhost:${PORT}`);
-    });
-}
 
-// Exporta la app para Vercel (IMPORTANTE)
-module.exports = app;
+// Escuchamos el puerto
+const PORT = 4000;
+app.listen(PORT, () => {
+    console.log(`✅ Servidor corriendo en: http://localhost:${PORT}`);
+});
